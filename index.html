@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Mold Cost Evaluation Agent</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Login page -->
+        <div id="login-page" class="page">
+            <div class="login-illustration" aria-hidden="true">
+                <object type="image/svg+xml" data="./assets/illustration-check-in.svg" width="227" height="134" tabindex="-1"></object>
+            </div>
+            <div class="login-container">
+                <h1>Mold Cost Evaluation Agent</h1>
+                <p class="subtitle">A professional workbench for mold design, quoting, and knowledge base Q&amp;A</p>
+                <form id="login-form" class="auth-card" novalidate>
+                    <div class="auth-mode-switch" role="tablist" aria-label="Authentication mode">
+                        <button type="button" id="auth-login-tab" class="auth-mode-tab active" data-auth-mode="login" role="tab" aria-selected="true">Log in</button>
+                        <button type="button" id="auth-register-tab" class="auth-mode-tab" data-auth-mode="register" role="tab" aria-selected="false">Register</button>
+                    </div>
+                    <div class="auth-field">
+                        <div class="auth-field-head">
+                            <label for="username">Username</label>
+                            <span class="auth-help" tabindex="0" aria-label="View username rules" aria-describedby="username-rule-tooltip">?</span>
+                            <span id="username-rule-tooltip" class="auth-tooltip" role="tooltip">3–20 characters, start with a letter; letters, digits, and underscores allowed</span>
+                        </div>
+                        <input type="text" id="username" placeholder="Enter username" autocomplete="username" aria-describedby="username-rule-tooltip">
+                    </div>
+                    <div class="auth-field">
+                        <div class="auth-field-head">
+                            <label for="password">Password</label>
+                            <span class="auth-help" tabindex="0" aria-label="View password rules" aria-describedby="password-rule-tooltip">?</span>
+                            <span id="password-rule-tooltip" class="auth-tooltip" role="tooltip">6–20 characters, must include letters and digits</span>
+                        </div>
+                        <div class="password-input-wrap">
+                            <input type="password" id="password" placeholder="Enter password" autocomplete="current-password" aria-describedby="password-rule-tooltip password-strength-text">
+                            <button type="button" id="password-toggle" class="password-toggle" aria-label="Show password" aria-pressed="false">Show</button>
+                        </div>
+                    </div>
+                    <div id="password-strength" class="password-strength hidden" aria-live="polite">
+                        <div class="strength-meter" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+                        <span id="password-strength-text">Password strength: waiting for input</span>
+                    </div>
+                    <div class="auth-options">
+                        <label class="remember-username">
+                            <input type="checkbox" id="remember-username">
+                            <span>Remember username</span>
+                        </label>
+                    </div>
+                    <button type="submit" id="login-btn">Log in</button>
+                </form>
+                <p id="toggle-auth">No account? <a href="#" id="toggle-auth-link">Register</a></p>
+                <p id="login-error" class="error" role="alert" aria-live="polite"></p>
+            </div>
+        </div>
+
+        <!-- Chat page -->
+        <div id="chat-page" class="page hidden">
+            <div class="chat-shell">
+                <aside class="conversation-sidebar" aria-label="Conversation history">
+                    <div class="sidebar-search">
+                        <label class="history-search-box" for="history-search-input">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                                <circle cx="11" cy="11" r="8"/>
+                                <path d="m21 21-4.3-4.3"/>
+                            </svg>
+                            <input id="history-search-input" type="search" placeholder="Search history" autocomplete="off" aria-label="Search history">
+                        </label>
+                        <button class="mobile-close" type="button" aria-label="Close sidebar">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                                <path d="M18 6 6 18"/>
+                                <path d="m6 6 12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="conversation-sidebar-nav">
+                        <button id="file-btn" type="button" class="conversation-nav-btn" title="KB Knowledge Base management" aria-label="KB Knowledge Base management" aria-controls="file-panel" aria-expanded="false" onclick="openFilePanel()">
+                            <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <g clip-path="url(#clip0_file_btn_book)">
+                                    <path d="M4 19V5C4 3.89543 4.89543 3 6 3H19.4C19.7314 3 20 3.26863 20 3.6V16.7143" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                    <path d="M8 3V11L10.5 9.4L13 11V3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M6 17H20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                    <path d="M6 21H20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                    <path d="M6 21C4.89543 21 4 20.1046 4 19C4 17.8954 4.89543 17 6 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_file_btn_book">
+                                        <rect width="24" height="24" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                            <span>KB Knowledge Base</span>
+                        </button>
+                        <button type="button" id="new-conversation-btn" class="conversation-nav-btn" title="New conversation" aria-label="New conversation">
+                            <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <path d="M12 12V15M9 12H12H9ZM15 12H12H15ZM12 12V9V12Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 21C16.9705 21 21 16.9705 21 12C21 7.02943 16.9705 3 12 3C7.02943 3 3 7.02943 3 12C3 13.6393 3.43827 15.1762 4.20404 16.5L3.45 20.55L7.5 19.796C8.82378 20.5617 10.3607 21 12 21Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>New conversation</span>
+                        </button>
+                    </div>
+                    <div class="conversation-history-label">
+                        <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                            <path d="M3 3v5h5"/>
+                            <path d="M12 7v5l4 2"/>
+                        </svg>
+                        <span class="conversation-sidebar-title">Conversation history</span>
+                        <small class="conversation-sidebar-count" id="conversation-count">0</small>
+                    </div>
+                    <div id="conversation-list" class="conversation-list" aria-live="polite">
+                        <div class="conversation-list-empty">No conversation history</div>
+                    </div>
+                    <div class="conversation-sidebar-footer">
+                        <div class="user-account-menu" id="user-account-menu">
+                            <button id="username-display" type="button" class="conversation-user-btn" title="Account" aria-label="Account" aria-haspopup="true" aria-expanded="false" aria-controls="user-account-dropdown">
+                                <span id="sidebar-user-avatar" class="conversation-user-avatar" aria-hidden="true"></span>
+                                <span class="conversation-user-meta">
+                                    <span id="sidebar-user-name" class="conversation-user-name"></span>
+                                    <span id="sidebar-user-role" class="conversation-user-role"></span>
+                                </span>
+                                <svg class="conversation-user-settings-icon lucide lucide-settings-2" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M14 17H5" />
+                                    <path d="M19 7h-9" />
+                                    <circle cx="17" cy="17" r="3" />
+                                    <circle cx="7" cy="7" r="3" />
+                                </svg>
+                            </button>
+                            <div id="user-account-dropdown" class="user-account-dropdown hidden" role="menu" aria-labelledby="username-display">
+                                <div class="user-account-dropdown-header">
+                                    <div id="user-account-avatar" class="user-account-avatar" aria-hidden="true"></div>
+                                    <div class="user-account-meta">
+                                        <div id="user-account-name" class="user-account-name"></div>
+                                        <div id="user-account-role" class="user-account-role"></div>
+                                    </div>
+                                </div>
+                                <div class="user-account-dropdown-divider"></div>
+                                <div class="user-account-dropdown-actions">
+                                    <button id="switch-account-btn" type="button" class="user-account-dropdown-item is-switch" role="menuitem">Switch account</button>
+                                    <button id="logout-btn" type="button" class="user-account-dropdown-item is-logout" role="menuitem">Log out</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+                <div class="chat-container is-welcome">
+                <div class="chat-header">
+                    <div class="header-left header-context">
+                        <div>
+                            <strong>AI Mold Cost Evaluation Agent</strong>
+                            <span>Provide part dimensions, materials, and mold type to complete analysis and cost estimation</span>
+                        </div>
+                    </div>
+                    <div class="header-right">
+                        <div class="mold-category-menu" id="mold-category-menu">
+                            <button
+                                id="mold-category-select"
+                                type="button"
+                                class="mold-category-select"
+                                title="Select calculation rule category"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                                aria-controls="mold-category-dropdown"
+                                data-value="injection_mold"
+                            >
+                                <span id="mold-category-label" class="mold-category-label">Injection Mold Rules</span>
+                                <svg class="mold-category-caret" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+                                    <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                            </button>
+                            <div id="mold-category-dropdown" class="mold-category-dropdown hidden" role="menu" aria-labelledby="mold-category-select">
+                                <button type="button" class="mold-category-dropdown-item" role="menuitem" data-value="injection_mold">Injection Mold Rules</button>
+                                <button type="button" class="mold-category-dropdown-item" role="menuitem" data-value="stamping_mold">Metal Stamping Die Rules</button>
+                                <button type="button" class="mold-category-dropdown-item" role="menuitem" data-value="casting_mold">Casting Mold Rules</button>
+                                <button type="button" class="mold-category-dropdown-item" role="menuitem" data-value="forging_mold">Forging Die Rules</button>
+                                <button type="button" class="mold-category-dropdown-item" role="menuitem" data-value="rubber_mold">Rubber Mold Rules</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="chat-messages" class="chat-messages"></div>
+                <div class="chat-composer">
+                    <div class="chat-welcome">
+                        <div class="chat-welcome-avatar" aria-hidden="true">
+                            <svg class="chat-welcome-avatar-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 36" fill="none" width="88" height="80">
+                                <g>
+                                    <g class="welcome-robot-arm-wave-l">
+                                        <ellipse cx="6.30435" cy="21.2997" rx="3.56883" ry="6.95247" transform="rotate(6.74973 6.30435 21.2997)" fill="url(#welcome-robot-arm-l)"/>
+                                    </g>
+                                    <g class="welcome-robot-arm-wave-r">
+                                        <ellipse cx="3.56883" cy="6.95247" rx="3.56883" ry="6.95247" transform="matrix(-0.986774 0.162103 0.162103 0.986774 36.7556 13.8606)" fill="url(#welcome-robot-arm-r)"/>
+                                    </g>
+                                    <path d="M33.8652 13.9902C34.6477 13.8871 35.3143 14.0349 35.7441 14.5595C36.1634 15.0714 36.312 15.8907 36.1992 17.0195C35.2277 26.7349 27.7245 32.6906 16.4922 35.8134C16.2185 35.8895 16.0013 35.7278 15.9004 35.54C15.8014 35.3554 15.783 35.0976 15.9238 34.8896C16.1433 34.5654 16.2998 34.1344 16.2998 33.4999C16.2998 32.8346 15.8266 32.113 15.1963 31.4843C14.5733 30.863 13.8426 30.3771 13.417 30.1816L13.1631 30.0654L13.3545 29.8622C17.0259 25.9879 22.8842 20.5023 27.7188 17.0966C28.9278 16.2449 30.0764 15.521 31.1133 14.9843C32.1474 14.449 33.0841 14.0931 33.8652 13.9902Z" fill="url(#welcome-robot-body)" stroke="url(#welcome-robot-body-stroke)" stroke-width="0.4"/>
+                                    <circle cx="20" cy="16" r="16" fill="url(#welcome-robot-head)"/>
+                                    <g filter="url(#welcome-robot-face-shadow)">
+                                        <ellipse cx="19.5556" cy="13" rx="11.5556" ry="8" fill="url(#welcome-robot-face)"/>
+                                        <path d="M19.5557 5.44434C22.6676 5.44436 25.4657 6.31889 27.4736 7.70898C29.4832 9.10028 30.667 10.978 30.667 13C30.667 15.022 29.4832 16.8997 27.4736 18.291C25.4657 19.6811 22.6676 20.5556 19.5557 20.5557C16.4436 20.5557 13.6456 19.6811 11.6377 18.291C9.62807 16.8997 8.44434 15.022 8.44434 13C8.44434 10.978 9.62807 9.10029 11.6377 7.70898C13.6456 6.31888 16.4436 5.44434 19.5557 5.44434Z" stroke="url(#welcome-robot-face-ring)" stroke-width="0.888889"/>
+                                    </g>
+                                    <g class="welcome-robot-eye" filter="url(#welcome-robot-eye-shadow-l)">
+                                        <rect x="14.2222" y="10.3333" width="3.55556" height="5.33333" rx="1.77778" fill="#6EE5FF"/>
+                                        <rect x="14.3111" y="10.4222" width="3.37778" height="5.15556" rx="1.68889" stroke="url(#welcome-robot-eye-shine-l)" stroke-width="0.177778"/>
+                                    </g>
+                                    <g class="welcome-robot-eye" filter="url(#welcome-robot-eye-shadow-r)">
+                                        <rect x="21.3333" y="10.3333" width="3.55556" height="5.33333" rx="1.77778" fill="#6EE5FF"/>
+                                        <rect x="21.4221" y="10.4222" width="3.37778" height="5.15556" rx="1.68889" stroke="url(#welcome-robot-eye-shine-r)" stroke-width="0.177778"/>
+                                    </g>
+                                </g>
+                                <defs>
+                                    <filter id="welcome-robot-face-shadow" x="7.8" y="5" width="23.9111" height="17.4" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                        <feOffset dx="0.2" dy="1"/>
+                                        <feGaussianBlur stdDeviation="0.2"/>
+                                        <feComposite in2="hardAlpha" operator="out"/>
+                                        <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.3 0"/>
+                                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+                                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+                                    </filter>
+                                    <filter id="welcome-robot-eye-shadow-l" x="12.4444" y="8.55557" width="7.11122" height="8.8889" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                        <feOffset/>
+                                        <feGaussianBlur stdDeviation="0.888889"/>
+                                        <feComposite in2="hardAlpha" operator="out"/>
+                                        <feColorMatrix type="matrix" values="0 0 0 0 0.113725 0 0 0 0 0.305882 0 0 0 0 0.847059 0 0 0 1 0"/>
+                                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+                                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+                                    </filter>
+                                    <filter id="welcome-robot-eye-shadow-r" x="19.5555" y="8.55557" width="7.11122" height="8.8889" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                        <feOffset/>
+                                        <feGaussianBlur stdDeviation="0.888889"/>
+                                        <feComposite in2="hardAlpha" operator="out"/>
+                                        <feColorMatrix type="matrix" values="0 0 0 0 0.113725 0 0 0 0 0.305882 0 0 0 0 0.847059 0 0 0 1 0"/>
+                                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+                                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+                                    </filter>
+                                    <radialGradient id="welcome-robot-arm-l" cx="0" cy="0" r="1" gradientTransform="matrix(3.12273 8.03879 -4.12646 6.08341 4.85451 18.258)" gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="white"/>
+                                        <stop offset="1" stop-color="#C3CBFF"/>
+                                    </radialGradient>
+                                    <radialGradient id="welcome-robot-arm-r" cx="0" cy="0" r="1" gradientTransform="matrix(5.05639 5.53921 -1.43673 6.22927 0.126945 3.97013)" gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="white"/>
+                                        <stop offset="1" stop-color="#C3CBFF"/>
+                                    </radialGradient>
+                                    <linearGradient id="welcome-robot-body" x1="19" y1="32" x2="19.5" y2="34.5" gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="#CFD6FF"/>
+                                        <stop offset="1" stop-color="#B5BEFB"/>
+                                    </linearGradient>
+                                    <linearGradient id="welcome-robot-body-stroke" x1="18" y1="34.5" x2="16.5" y2="33.5" gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="#CFD6FF" stop-opacity="0"/>
+                                        <stop offset="1" stop-color="#E2E6FF"/>
+                                    </linearGradient>
+                                    <radialGradient id="welcome-robot-head" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(13.5 9) rotate(52.8831) scale(23.2002)">
+                                        <stop stop-color="white"/>
+                                        <stop offset="0.841346" stop-color="#C3CBFF"/>
+                                        <stop offset="1" stop-color="#CCD3FF"/>
+                                    </radialGradient>
+                                    <linearGradient id="welcome-robot-face" x1="19.5556" y1="5" x2="19.5556" y2="21" gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="#484FAB"/>
+                                        <stop offset="1" stop-color="#37375E"/>
+                                    </linearGradient>
+                                    <linearGradient id="welcome-robot-face-ring" x1="19.5556" y1="5" x2="19.5556" y2="21" gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="#7BEEE5"/>
+                                        <stop offset="0.403846" stop-color="#7C71FB"/>
+                                        <stop offset="1" stop-color="#B083EC"/>
+                                    </linearGradient>
+                                    <linearGradient id="welcome-robot-eye-shine-l" x1="15.9999" y1="10.3333" x2="15.9999" y2="15.6667" gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="white"/>
+                                        <stop offset="0.884615" stop-color="white" stop-opacity="0"/>
+                                    </linearGradient>
+                                    <linearGradient id="welcome-robot-eye-shine-r" x1="23.111" y1="10.3333" x2="23.111" y2="15.6667" gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="white"/>
+                                        <stop offset="0.884615" stop-color="white" stop-opacity="0"/>
+                                    </linearGradient>
+                                    <clipPath id="welcome-robot-clip">
+                                        <rect width="40" height="36" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </div>
+                        <div class="chat-welcome-title-row">
+                            <h2 class="chat-welcome-heading">Hi, I'm Little Apprentice — what shall we learn today?</h2>
+                        </div>
+                        <div class="welcome-rule-chips" id="welcome-rule-chips" role="group" aria-label="Select calculation rule category">
+                            <button type="button" class="welcome-rule-chip is-active" data-value="injection_mold">Injection Mold Rules</button>
+                            <button type="button" class="welcome-rule-chip" data-value="stamping_mold">Metal Stamping Die Rules</button>
+                            <button type="button" class="welcome-rule-chip" data-value="casting_mold">Casting Mold Rules</button>
+                            <button type="button" class="welcome-rule-chip" data-value="forging_mold">Forging Die Rules</button>
+                            <button type="button" class="welcome-rule-chip" data-value="rubber_mold">Rubber Mold Rules</button>
+                        </div>
+                    </div>
+                    <div class="chat-input-container">
+                        <div class="chat-input-box">
+                            <input type="text" id="chat-input" placeholder="Enter a Knowledge Q&amp;A question, e.g.: What are the technical requirements for an injection mold?">
+                            <div class="chat-input-toolbar">
+                                <div class="mode-selector">
+                                    <button id="mode-rag" class="mode-btn active" onclick="setChatMode('rag_qa')">Knowledge Q&amp;A</button>
+                                    <button id="mode-quote" class="mode-btn" onclick="setChatMode('quote')">Cost Estimation</button>
+                                </div>
+                                <div class="chat-input-actions">
+                                    <button id="expand-input-btn" type="button" title="Expand input" aria-label="Expand input" aria-expanded="false">
+                                        <svg class="btn-icon expand-input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <polyline points="15 3 21 3 21 9"></polyline>
+                                            <polyline points="9 21 3 21 3 15"></polyline>
+                                            <line x1="21" y1="3" x2="14" y2="10"></line>
+                                            <line x1="3" y1="21" x2="10" y2="14"></line>
+                                        </svg>
+                                        <svg class="btn-icon collapse-input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <polyline points="4 14 10 14 10 20"></polyline>
+                                            <polyline points="20 10 14 10 14 4"></polyline>
+                                            <line x1="14" y1="10" x2="21" y2="3"></line>
+                                            <line x1="3" y1="21" x2="10" y2="14"></line>
+                                        </svg>
+                                    </button>
+                                    <button id="attach-file-btn" type="button" title="Upload file" aria-label="Upload file">
+                                        <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+                                        </svg>
+                                    </button>
+                                    <button id="voice-btn" type="button" title="Voice input" aria-label="Voice input">
+                                        <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                                            <line x1="12" y1="19" x2="12" y2="23"></line>
+                                            <line x1="8" y1="23" x2="16" y2="23"></line>
+                                        </svg>
+                                    </button>
+                                    <button id="send-btn" type="button" title="Send" aria-label="Send">
+                                        <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <line x1="12" y1="19" x2="12" y2="5"></line>
+                                            <polyline points="5 12 12 5 19 12"></polyline>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- KB Knowledge Base management modal -->
+        <div id="file-panel" class="file-panel-modal hidden" role="dialog" aria-modal="true" aria-labelledby="file-panel-title" aria-label="KB Knowledge Base management">
+            <div class="file-panel-backdrop" data-close-file-panel></div>
+            <div class="file-panel">
+                <div class="file-panel-header">
+                    <div>
+                        <div class="file-panel-title" id="file-panel-title">KB Knowledge Base management</div>
+                    </div>
+                    <button type="button" id="close-file-panel" title="Close" aria-label="Close">×</button>
+                </div>
+                <div class="file-panel-content">
+                    <div class="file-upload-area" id="file-upload-area">
+                        <input type="file" id="file-input" accept=".pdf" multiple style="display:none">
+                        <p>Click to select files or drag and drop them here</p>
+                        <p class="file-tip">PDF files are supported; uploads are added to the KB Knowledge Base automatically</p>
+                        <button id="select-file-btn" class="upload-btn">Upload PDF</button>
+                    </div>
+                    <div id="upload-progress" class="upload-progress hidden">
+                        <div class="progress-info">
+                            <span id="progress-filename"></span>
+                            <span id="progress-status"></span>
+                        </div>
+                        <div class="progress-bar">
+                            <div id="progress-fill"></div>
+                        </div>
+                        <div class="progress-detail">
+                            <span id="progress-imported"></span> / <span id="progress-total"></span>
+                        </div>
+                        <div id="progress-file-list" class="progress-file-list"></div>
+                    </div>
+                    <div class="file-list hidden" id="file-list">
+                        <div class="file-list-empty">No uploaded files</div>
+                    </div>
+                    <div class="kb-list" id="kb-list">
+                        <div class="file-list-empty">Loading...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Newbie guide modal -->
+        <div id="newbie-guide-panel" class="newbie-guide-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="newbie-guide-title" aria-label="Getting started">
+            <div class="newbie-guide-backdrop" data-close-newbie-guide></div>
+            <div class="newbie-guide-dialog">
+                <div class="newbie-guide-header">
+                    <div>
+                        <h3 class="newbie-guide-title" id="newbie-guide-title">Getting started</h3>
+                    </div>
+                    <button type="button" id="close-newbie-guide" class="newbie-guide-close" title="Close" aria-label="Close">×</button>
+                </div>
+                <div class="newbie-guide-body">
+                    <ol class="newbie-guide-steps">
+                        <li class="newbie-guide-step">
+                            <span class="newbie-guide-step-index" aria-hidden="true">1</span>
+                            <div class="newbie-guide-step-content">
+                                <h4>Select calculation rules</h4>
+                                <p>On the welcome page or at the top of the chat, choose a mold type rule (e.g. injection / stamping) so Q&amp;A and estimation use the correct rules.</p>
+                                <figure class="newbie-guide-figure">
+                                    <img src="./assets/guide-step-rules.svg" alt="Welcome page rule chips: Injection, Metal Stamping, Casting, Forging, and Rubber Mold Rules" width="600" height="80">
+                                </figure>
+                            </div>
+                        </li>
+                        <li class="newbie-guide-step">
+                            <span class="newbie-guide-step-index" aria-hidden="true">2</span>
+                            <div class="newbie-guide-step-content">
+                                <h4>Switch Q&amp;A mode</h4>
+                                <p>Below the input box, switch between Knowledge Q&amp;A and Cost Estimation: the former searches the knowledge base; the latter is for part parameters and cost estimation.</p>
+                                <figure class="newbie-guide-figure">
+                                    <img src="./assets/guide-step-modes.svg" alt="Input mode switch UI illustration" width="600" height="140">
+                                </figure>
+                            </div>
+                        </li>
+                        <li class="newbie-guide-step">
+                            <span class="newbie-guide-step-index" aria-hidden="true">3</span>
+                            <div class="newbie-guide-step-content">
+                                <h4>Manage the KB Knowledge Base</h4>
+                                <p>Click KB Knowledge Base on the left to upload PDFs, view documents, and maintain knowledge sources.</p>
+                                <figure class="newbie-guide-figure">
+                                    <img src="./assets/guide-step-kb.svg" alt="KB Knowledge Base management panel illustration" width="440" height="168">
+                                </figure>
+                            </div>
+                        </li>
+                        <li class="newbie-guide-step">
+                            <span class="newbie-guide-step-index" aria-hidden="true">4</span>
+                            <div class="newbie-guide-step-content">
+                                <h4>New and past conversations</h4>
+                                <p>Use New conversation to start a session; browse and switch past records in Conversation history.</p>
+                                <figure class="newbie-guide-figure">
+                                    <img src="./assets/guide-step-history.svg" alt="Sidebar new conversation and history illustration" width="440" height="168">
+                                </figure>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+                <div class="newbie-guide-footer">
+                    <button type="button" id="newbie-guide-confirm" class="newbie-guide-confirm">Got it</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Static GitHub Pages build: always use local mock data (no backend).
+        window.__MOCK_MODE__ = true;
+    </script>
+    <script src="./js/logger.js"></script>
+    <script src="./js/mock-fixtures.js"></script>
+    <script src="./js/mock-api.js"></script>
+    <script src="./js/api.js"></script>
+    <script src="./js/app.js"></script>
+</body>
+</html>

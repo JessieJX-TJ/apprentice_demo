@@ -1,0 +1,17 @@
+{
+  "name": "apprentice_demo",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "AI Mold Cost Evaluation Agent · Frontend (Vite) — static GitHub Pages build",
+  "homepage": "https://jessiexj-tj.github.io/apprentice_demo/",
+  "scripts": {
+    "dev": "vite",
+    "dev:mock": "vite --open /index.html",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^6.3.5"
+  }
+}
