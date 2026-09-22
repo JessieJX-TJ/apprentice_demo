@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 140" fill="none" role="img" aria-label="Input mode switch UI illustration">
+  <rect width="600" height="140" rx="12" fill="#F4F7FF"/>
+  <!-- chat-input-box shell -->
+  <rect x="24" y="18" width="552" height="104" rx="30" fill="#FFFFFF" stroke="#D7E2F1"/>
+  <!-- placeholder (matches #chat-input) -->
+  <text x="48" y="48" fill="#C9CDD4" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="13">Enter a Knowledge Q&A question, e.g.: What are the technical requirements for an injection mold?</text>
+  <!-- mode-selector -->
+  <rect x="40" y="74" width="156" height="36" rx="18" fill="#EEF4FF" stroke="#E7EDF7"/>
+  <rect x="44" y="76" width="74" height="32" rx="16" fill="#FFFFFF" stroke="#CDDDFE"/>
+  <text x="81" y="92" text-anchor="middle" fill="#2563EB" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="12" font-weight="600" dominant-baseline="central">Knowledge Q&A</text>
+  <text x="155" y="92" text-anchor="middle" fill="#A9AEB8" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="12" font-weight="500" dominant-baseline="central">Cost Estimation</text>
+  <!-- attach -->
+  <g transform="translate(432 74)" stroke="#A9AEB8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <rect width="36" height="36" rx="18" fill="#FFFFFF" stroke="none"/>
+    <path d="M23.5 16.2l-6.2 6.2a3.2 3.2 0 0 1-4.5-4.5l6.2-6.2a2.1 2.1 0 0 1 3 3l-6.2 6.2a1 1 0 0 1-1.4-1.4l5.7-5.7"/>
+  </g>
+  <!-- voice -->
+  <g transform="translate(476 74)" stroke="#A9AEB8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <rect width="36" height="36" rx="18" fill="#FFFFFF" stroke="none"/>
+    <rect x="15.2" y="10" width="5.6" height="10" rx="2.8"/>
+    <path d="M12.5 18.5v1a5.5 5.5 0 0 0 11 0v-1"/>
+    <line x1="18" y1="25" x2="18" y2="27.5"/>
+    <line x1="15" y1="27.5" x2="21" y2="27.5"/>
+  </g>
+  <!-- send (up arrow) -->
+  <g transform="translate(520 74)">
+    <circle cx="18" cy="18" r="18" fill="#2563EB"/>
+    <g stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <line x1="18" y1="24" x2="18" y2="12"/>
+      <polyline points="12.5 17.5 18 12 23.5 17.5"/>
+    </g>
+  </g>
+</svg>

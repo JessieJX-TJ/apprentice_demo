@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 80" fill="none" role="img" aria-label="Welcome page calculation rule selection illustration">
+  <rect width="600" height="80" rx="12" fill="#F4F7FF"/>
+  <g font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="11" font-weight="500">
+    <rect x="16" y="24" width="100" height="32" rx="16" fill="#EFF6FF" stroke="#93B4F6" stroke-width="1"/>
+    <text x="66" y="41" text-anchor="middle" fill="#2563EB" dominant-baseline="central">Injection Mold Rules</text>
+    <rect x="124" y="24" width="124" height="32" rx="16" fill="#FFFFFF" stroke="#E7EDF7" stroke-width="1"/>
+    <text x="186" y="41" text-anchor="middle" fill="#272E3B" dominant-baseline="central">Metal Stamping Die Rules</text>
+    <rect x="256" y="24" width="112" height="32" rx="16" fill="#FFFFFF" stroke="#E7EDF7" stroke-width="1"/>
+    <text x="312" y="41" text-anchor="middle" fill="#272E3B" dominant-baseline="central">Casting Mold Rules</text>
+    <rect x="376" y="24" width="100" height="32" rx="16" fill="#FFFFFF" stroke="#E7EDF7" stroke-width="1"/>
+    <text x="426" y="41" text-anchor="middle" fill="#272E3B" dominant-baseline="central">Forging Die Rules</text>
+    <rect x="484" y="24" width="100" height="32" rx="16" fill="#FFFFFF" stroke="#E7EDF7" stroke-width="1"/>
+    <text x="534" y="41" text-anchor="middle" fill="#272E3B" dominant-baseline="central">Rubber Mold Rules</text>
+  </g>
+</svg>

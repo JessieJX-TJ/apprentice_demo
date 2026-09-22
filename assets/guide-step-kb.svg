@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 168" fill="none" role="img" aria-label="KB Knowledge Base management UI illustration">
+  <rect width="440" height="168" rx="12" fill="#F4F7FF"/>
+  <rect x="72" y="14" width="296" height="140" rx="12" fill="#FFFFFF" stroke="#E7EDF7"/>
+  <text x="88" y="36" fill="#1D2129" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="12" font-weight="600">KB Knowledge Base management</text>
+  <rect x="338" y="22" width="18" height="18" rx="4" fill="#F2F3F5"/>
+  <text x="347" y="35" text-anchor="middle" fill="#A9AEB8" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="12">×</text>
+  <line x1="72" y1="48" x2="368" y2="48" stroke="#E7EDF7"/>
+  <rect x="92" y="60" width="256" height="52" rx="8" fill="#F8FAFC" stroke="#D7E2F1" stroke-dasharray="4 3"/>
+  <text x="220" y="82" text-anchor="middle" fill="#A9AEB8" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="10">Click to select or drag a PDF here</text>
+  <rect x="176" y="90" width="88" height="16" rx="4" fill="#2563EB"/>
+  <text x="220" y="101" text-anchor="middle" fill="#FFFFFF" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="9" font-weight="600">Upload PDF</text>
+  <rect x="92" y="122" width="256" height="20" rx="6" fill="#F7F8FA"/>
+  <rect x="100" y="127" width="10" height="10" rx="2" fill="#E8F3FF" stroke="#93B4F6"/>
+  <text x="116" y="136" fill="#272E3B" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="9">Injection mold technical requirements.pdf</text>
+</svg>
